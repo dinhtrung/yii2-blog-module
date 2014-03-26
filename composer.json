@@ -1,0 +1,24 @@
+{
+	"name": "dinhtrung/yii2-blog-module",
+	"description": "A blog module with file uploading, tagging, category",
+	"keywords": ["yii", "module", "project", "dot project", "management"],
+	"homepage": "https://github.com/dinhtrung/yii2-blog-module",
+	"type": "yii2-module",
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Nguyen Dinh Trung",
+			"email": "nguyendinhtrung141@gmail.com"
+		}
+	],
+	"minimum-stability": "dev",
+	"require": {
+		"yiisoft/yii2": "*",
+		"kartik-v/yii2-widgets": "dev-master"
+	},
+	"autoload": {
+		"psr-4": {
+			"dinhtrung\\blog\\": ""
+		}
+	}
+}
