@@ -24,6 +24,8 @@ class Blog extends \yii\db\ActiveRecord
 	const STATUS_PENDING = 0;
 	const STATUS_ACTIVE = 1;
 	const STATUS_ARCHIVED = 2;
+
+	public $tagNames = '';
     /**
      * @inheritdoc
      */
@@ -41,7 +43,9 @@ class Blog extends \yii\db\ActiveRecord
             [['title', 'description', 'body', 'status'], 'required'],
             [['body'], 'string'],
             [['status', 'category_id'], 'integer'],
-            [['title', 'description'], 'string', 'max' => 255]
+            [['title', 'description'], 'string', 'max' => 255],
+            // Extra properties
+            [['tagNames'], 'string'],
         ];
     }
 
@@ -61,6 +65,7 @@ class Blog extends \yii\db\ActiveRecord
             'updated_at' => \Yii::t('blog', 'Updated At'),
             'created_by' => \Yii::t('blog', 'Created By'),
             'updated_by' => \Yii::t('blog', 'Updated By'),
+            'tagNames' => \Yii::t('blog', 'Tags'),
         ];
     }
 
@@ -85,7 +90,7 @@ class Blog extends \yii\db\ActiveRecord
      */
     public function getTags()
     {
-        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('tbl_blog_tag', ['blog_id' => 'id']);
+        return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('{{%blog_tag}}', ['blog_id' => 'id']);
     }
 
     /**

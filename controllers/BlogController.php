@@ -8,6 +8,8 @@ use vendor\dinhtrung\blog\models\BlogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
+use vendor\dinhtrung\blog\models\Tag;
+use vendor\dinhtrung\blog\models\BlogTag;
 
 /**
  * BlogController implements the CRUD actions for Blog model.
@@ -61,10 +63,29 @@ class BlogController extends Controller
     public function actionCreate()
     {
         $model = new Blog;
+        if (is_array($model->tags)) $model->tags = implode(', ', $model->tags);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        	$tags = array_unique(preg_split( '/\s*,\s*/u',
+        			preg_replace( '/\s+/u', ' ',
+        					is_array($this->tags) ? implode(',', $this->tags) : $this->tags
+					), -1, PREG_SPLIT_NO_EMPTY ));
+        	$rows = [];
+        	foreach ($tags as $title){
+        		$tag = Tag::find(['title' => $title]);
+        		if ($tag === NULL) $tag = new Tag;
+        		$tag->frequency++;
+        		if (! $tag->save()) {
+        			Yii::error("Cannot save tag " . $tag->title);
+        			continue;
+        		}
+        		$rows[] = [$model->id, $tag->id];
+        	}
+        	if (! empty($rows)) $model->getDb()->createCommand()->batchInsert('{{%blog_tag}}', ['blog_id', 'tag_id'], $rows);
+
+        	return $this->redirect(['view', 'id' => $model->id]);
         } else {
+        	$model->tags = implode(',', $model->tags);
             return $this->render('createBlog', [
                 'model' => $model,
             ]);
@@ -80,10 +101,48 @@ class BlogController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $items = [];
+        foreach ($model->tags as $item) {
+        	$items[] = $item->title;
+        }
+        $model->tagNames = implode(', ', $items);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        	$tags = array_unique(preg_split( '/\s*,\s*/u',
+        			preg_replace( '/\s+/u', ' ',
+        					is_array($model->tagNames) ? implode(',', $model->tagNames) : $model->tagNames
+        			), -1, PREG_SPLIT_NO_EMPTY ));
+        	$removed = array_diff($items, $tags);
+        	foreach (Tag::find()->where(['in', 'title', $removed])->all() as $removedItem){
+        		BlogTag::deleteAll(['blog_id' => $model->id, 'tag_id' => $removedItem->id]);
+        		$removedItem->frequency --;
+        		$removedItem->save();
+        	}
+
+        	$added = array_diff($tags, $items);
+        	$rows = [];
+        	foreach ($added as $title){
+        		$tag = Tag::find(['title' => $title]);
+        		if (! $tag) {
+        			$tag = new Tag;
+        			$tag->title = $title;
+        		}
+        		$tag->frequency++;
+        		if (! $tag->save()) {
+        			Yii::error("Cannot save tag " . $tag->title . json_encode($tag->getErrors()));
+        			continue;
+        		}
+        		$rows[] = [$model->id, $tag->id];
+        	}
+        	// @TODO: Must know for sure if we need to remove something...
+        	if (! empty($rows)) $model->getDb()->createCommand()->batchInsert('{{%blog_tag}}', ['blog_id', 'tag_id'], $rows)->execute();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+//         	$model->populateRelation('tags', $model->getTags()->all());
+//         	if ($model->isRelationPopulated('tags')){
+
+//         	}
             return $this->render('updateBlog', [
                 'model' => $model,
             ]);

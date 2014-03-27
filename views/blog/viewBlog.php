@@ -36,6 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <?php foreach ($model->getTags()->all() as $tag)
+    				echo Html::a($tag->title, ['tag/view', 'id' => $tag->id], ['class' => 'label label-primary']) . ' '?>
+
     <nav class="pull-right">
         <?= Html::a(Yii::t('blog', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('blog', 'Delete'), ['delete', 'id' => $model->id], [

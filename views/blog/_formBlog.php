@@ -25,6 +25,7 @@ use vendor\dinhtrung\blog\models\Blog;
 							]) ?>
 
 		    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+		    <?= $form->field($model, 'tagNames') ?>
 	    </div>
 	    <div class="col-xs-3">
 		    <?= $form->field($model, 'status')->dropDownList(Blog::statusOptions()) ?>

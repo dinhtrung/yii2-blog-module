@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_searchBlog', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('blog', 'Create {modelClass}', ['modelClass' => 'Blog',]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('blog', 'Create {modelClass}', ['modelClass' => 'Blog',]), ['blog/create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= ListView::widget([

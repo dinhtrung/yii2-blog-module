@@ -20,7 +20,7 @@ class Tag extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbl_tag';
+        return '{{%tag}}';
     }
 
     /**
@@ -29,7 +29,7 @@ class Tag extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'frequency'], 'required'],
+            [['title', 'frequency'], 'required'],
             [['description'], 'string'],
             [['frequency'], 'integer'],
             [['title'], 'string', 'max' => 255]
