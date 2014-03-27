@@ -18,15 +18,16 @@ class BlogSearch extends Model
     public $body;
     public $status;
     public $category_id;
-    public $user_id;
+    public $created_by;
+    public $updated_by;
     public $created_at;
     public $updated_at;
 
     public function rules()
     {
         return [
-            [['id', 'status', 'category_id', 'user_id'], 'integer'],
-            [['title', 'description', 'body', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'status', 'category_id', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
+            [['title', 'description', 'body'], 'safe'],
         ];
     }
 
@@ -42,7 +43,8 @@ class BlogSearch extends Model
             'body' => Yii::t('blog', 'Body'),
             'status' => Yii::t('blog', 'Status'),
             'category_id' => Yii::t('blog', 'Category ID'),
-            'user_id' => Yii::t('blog', 'User ID'),
+            'created_by' => Yii::t('blog', 'Created By'),
+            'updated_by' => Yii::t('blog', 'Updated By'),
             'created_at' => Yii::t('blog', 'Created At'),
             'updated_at' => Yii::t('blog', 'Updated At'),
         ];
@@ -65,7 +67,8 @@ class BlogSearch extends Model
         $this->addCondition($query, 'body', true);
         $this->addCondition($query, 'status');
         $this->addCondition($query, 'category_id');
-        $this->addCondition($query, 'user_id');
+        $this->addCondition($query, 'created_by');
+        $this->addCondition($query, 'updated_by');
         $this->addCondition($query, 'created_at');
         $this->addCondition($query, 'updated_at');
         return $dataProvider;

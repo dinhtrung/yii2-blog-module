@@ -11,7 +11,6 @@ namespace vendor\dinhtrung\blog\models;
  * @property string $body
  * @property integer $status
  * @property integer $category_id
- * @property integer $user_id
  * @property string $created_at
  * @property string $updated_at
  *
@@ -21,12 +20,15 @@ namespace vendor\dinhtrung\blog\models;
  */
 class Blog extends \yii\db\ActiveRecord
 {
+	const STATUS_PENDING = 0;
+	const STATUS_ACTIVE = 1;
+	const STATUS_ARCHIVED = 2;
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'tbl_blog';
+        return '{{%blog}}';
     }
 
     /**
@@ -35,10 +37,9 @@ class Blog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'body', 'status', 'user_id', 'created_at'], 'required'],
+            [['title', 'description', 'body', 'status'], 'required'],
             [['body'], 'string'],
-            [['status', 'category_id', 'user_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['status', 'category_id'], 'integer'],
             [['title', 'description'], 'string', 'max' => 255]
         ];
     }
@@ -49,15 +50,16 @@ class Blog extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => \Yii::t('vendor/dinhtrung/blog/Blog', 'ID'),
-            'title' => \Yii::t('vendor/dinhtrung/blog/Blog', 'Title'),
-            'description' => \Yii::t('vendor/dinhtrung/blog/Blog', 'Description'),
-            'body' => \Yii::t('vendor/dinhtrung/blog/Blog', 'Body'),
-            'status' => \Yii::t('vendor/dinhtrung/blog/Blog', 'Status'),
-            'category_id' => \Yii::t('vendor/dinhtrung/blog/Blog', 'Category ID'),
-            'user_id' => \Yii::t('vendor/dinhtrung/blog/Blog', 'User ID'),
-            'created_at' => \Yii::t('vendor/dinhtrung/blog/Blog', 'Created At'),
-            'updated_at' => \Yii::t('vendor/dinhtrung/blog/Blog', 'Updated At'),
+            'id' => \Yii::t('blog', 'ID'),
+            'title' => \Yii::t('blog', 'Title'),
+            'description' => \Yii::t('blog', 'Description'),
+            'body' => \Yii::t('blog', 'Body'),
+            'status' => \Yii::t('blog', 'Status'),
+            'category_id' => \Yii::t('blog', 'Category ID'),
+            'created_at' => \Yii::t('blog', 'Created At'),
+            'updated_at' => \Yii::t('blog', 'Updated At'),
+            'created_by' => \Yii::t('blog', 'Created By'),
+            'updated_by' => \Yii::t('blog', 'Updated By'),
         ];
     }
 
@@ -83,5 +85,29 @@ class Blog extends \yii\db\ActiveRecord
     public function getTags()
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('tbl_blog_tag', ['blog_id' => 'id']);
+    }
+
+    /**
+     * Add extra behaviors for model
+     */
+    public function behaviors(){
+    	return [
+			['class' => 'yii\behaviors\TimestampBehavior'],
+			['class' => 'yii\behaviors\BlameableBehavior'],
+    	];
+    }
+
+    /**
+     * Aliasing function
+     */
+    public static function statusOptions($i = NULL) {
+    	$options = [
+			self::STATUS_PENDING		=>	\Yii::t('blog', 'Pending'),
+			self::STATUS_ACTIVE			=>	\Yii::t('blog', 'Active'),
+			self::STATUS_ARCHIVED 	=>	\Yii::t('blog', 'Archived'),
+    	];
+    	if (is_null($i)) return $options;
+    	elseif (array_key_exists($i, $options)) return $options[$i];
+    	else return $i;
     }
 }

@@ -12,11 +12,31 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('blog', 'Blogs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="blog-view">
+<article class="blog-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+	<header>
+	    <h1><small><?= \Yii::t('blog', 'Blog Post')?>:</small> <?= Html::encode($model->title) ?></h1>
 
-    <p>
+	</header>
+	    <p class="lead"><?= $model->description; ?></p>
+	    <hr>
+
+	    <?= kartik\markdown\Markdown::convert($model->body); ?>
+
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            ['attribute' => 'status', 'value' => $model->statusOptions($model->status)],
+            'category_id',
+            'created_at:datetime',
+            'updated_at:datetime',
+            'created_by',
+            'updated_by',
+        ],
+    ]) ?>
+
+    <nav class="pull-right">
         <?= Html::a(Yii::t('blog', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('blog', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -25,21 +45,5 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            'description',
-            'body:ntext',
-            'status',
-            'category_id',
-            'user_id',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
-
-</div>
+    </nav>
+</article>

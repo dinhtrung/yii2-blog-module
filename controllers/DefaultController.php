@@ -2,12 +2,70 @@
 
 namespace vendor\dinhtrung\blog\controllers;
 
+use Yii;
+use vendor\dinhtrung\blog\models\Blog;
+use vendor\dinhtrung\blog\models\BlogSearch;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\web\VerbFilter;
 
+/**
+ * DefaultController implements the CRUD actions for Blog model.
+ */
 class DefaultController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Lists all Blog models.
+     * @return mixed
+     */
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new BlogSearch;
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+        return $this->render('indexBlog', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
+    }
+
+    /**
+     * Displays a single Blog model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('viewBlog', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Finds the Blog model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Blog the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if ($id !== null && ($model = Blog::find($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

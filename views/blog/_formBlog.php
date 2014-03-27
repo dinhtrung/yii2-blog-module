@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
+use kartik\widgets\Select2;
+use vendor\dinhtrung\blog\models\Category;
+use vendor\dinhtrung\blog\models\Blog;
 
 /**
  * @var yii\web\View $this
@@ -14,42 +17,33 @@ use kartik\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title', [
-				    			'options' => ['maxlength' => 255],
-				    			'addon' => ['prepend' => ['content' => '<i class="glyphicon glyphicon-star"></i>']]
-					]) ?>
+    <div class="row">
+	    <div class="col-xs-9">
+		    <?= $form->field($model, 'title', [
+						    			'options' => ['maxlength' => 255],
+						    			'addon' => ['prepend' => ['content' => '<i class="glyphicon glyphicon-star"></i>']]
+							]) ?>
 
-    <?= $form->field($model, 'description')->widget(kartik\markdown\MarkdownEditor::className(), ['height' => 300 ]) ?>
+		    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+	    </div>
+	    <div class="col-xs-3">
+		    <?= $form->field($model, 'status')->dropDownList(Blog::statusOptions()) ?>
+		    <?= $form->field($model, 'category_id')->widget(Select2::className(), [
+						    'data' => ['' => '--- Select ---'] + Category::options(),
+						    'options' => [
+						    	'multiple' => FALSE,
+						    ],
+						    'pluginOptions' => [
+						        'allowClear' => true
+						    ],
+						]); ?>
+	    </div>
+    </div>
 
-    <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'body')->widget(kartik\markdown\MarkdownEditor::className(), ['height' => 300 ]) ?>
 
-    <?= $form->field($model, 'user_id')->widget(Select2::className(), [
-				    'data' => ['' => '--- Select ---'],
-				    'options' => [
-				    	'placeholder' => 'Select a state ...',
-				    	'multiple' => TRUE,
-				    ],
-				    'pluginOptions' => [
-				        'allowClear' => true
-				    ],
-				]); ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'category_id')->widget(Select2::className(), [
-				    'data' => ['' => '--- Select ---'],
-				    'options' => [
-				    	'placeholder' => 'Select a state ...',
-				    	'multiple' => TRUE,
-				    ],
-				    'pluginOptions' => [
-				        'allowClear' => true
-				    ],
-				]); ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('blog', 'Create') : Yii::t('blog', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

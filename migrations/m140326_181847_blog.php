@@ -31,9 +31,10 @@ class m140326_181847_blog extends \yii\db\Migration
     			'body' => Schema::TYPE_TEXT,
     			'status' => Schema::TYPE_BOOLEAN,
     			'category_id' => Schema::TYPE_INTEGER,
-    			'user_id' => Schema::TYPE_INTEGER,
-    			'created_at' => Schema::TYPE_TIMESTAMP,
-    			'updated_at' => Schema::TYPE_TIMESTAMP,
+    			'created_by' => Schema::TYPE_INTEGER,
+    			'created_at' => Schema::TYPE_INTEGER,
+    			'updated_by' => Schema::TYPE_INTEGER,
+    			'updated_at' => Schema::TYPE_INTEGER,
     	], $tableOptions);
 
     }
