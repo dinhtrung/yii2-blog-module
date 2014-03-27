@@ -6,13 +6,13 @@ use yii\grid\GridView;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var vendor\dinhtrung\blog\models\CategorySearch $searchModel
+ * @var vendor\dinhtrung\blog\models\ThreadSearch $searchModel
  */
 
-$this->title = Yii::t('blog', 'Categories');
+$this->title = Yii::t('blog', 'Threads');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="category-index">
+<div class="thread-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('blog', 'Create {modelClass}', [
-  'modelClass' => 'Category',
+  'modelClass' => 'Thread',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
@@ -30,8 +30,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            ['attribute' => 'title', 'value' => function ($data) { return str_repeat('- ', $data->level) . $data->title; }],
-            'description:ntext',
+            'id',
+            'title',
+            'body:ntext',
+            'created_at',
+            'created_by',
+            // 'updated_at',
+            // 'updated_by',
+            // 'blog_id',
+            // 'root',
+            // 'lft',
+            // 'rgt',
+            // 'level',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -2,6 +2,7 @@
 
 namespace vendor\dinhtrung\blog\models;
 
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "tbl_blog".
  *
@@ -109,5 +110,12 @@ class Blog extends \yii\db\ActiveRecord
     	if (is_null($i)) return $options;
     	elseif (array_key_exists($i, $options)) return $options[$i];
     	else return $i;
+    }
+
+    /**
+     * Return the option list suitable for dropDownList
+     */
+    public static function options($q = NULL){
+    	return ArrayHelper::map(self::find()->where($q)->all(), 'id', 'title');
     }
 }

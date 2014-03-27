@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use kartik\markdown\Markdown;
 
 /**
  * @var yii\web\View $this
@@ -12,11 +12,26 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('blog', 'Blogs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="blog-view">
+<article class="blog-view">
+	<header>
+	    <h1><?= Html::encode($this->title) ?></h1>
+	    <small>
+	    	<time datetime="<?= \Yii::$app->formatter->asDatetime($model->created_at, 'Y-m-d H:i:s')?>"
+	    			pubdate="<?= \Yii::$app->formatter->asDatetime($model->updated_at, 'Y-m-d H:i:s')?>">
+	    			<?= \Yii::$app->formatter->asDatetime($model->updated_at)?>
+	    	</time> by
+	    	@AUTHOR.
+	    </small>
+	    <p class="lead"><?= $model->description; ?></p>
+	</header>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+	<div class="entry">
+		<?= Markdown::convert($model->body); ?>
+	</div>
 
-    <p>
+
+
+    <footer>
         <?= Html::a(Yii::t('blog', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('blog', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -25,22 +40,5 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            'description',
-            'body:ntext',
-            'status',
-            'category_id',
-            'created_by',
-            'updated_by',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
-
+    </footer>
 </div>

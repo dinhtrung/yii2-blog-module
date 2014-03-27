@@ -107,10 +107,11 @@ class Category extends \yii\db\ActiveRecord {
     	} elseif (is_scalar($root)){
     		if ($root == 0){
     			foreach (self::find()->roots()->all() as $rootItem){
-    				if ($level)
+    				if ($level){
     					$res += self::options($rootItem, $level - 1);
-    				elseif (is_null($level))
-    				$res += self::options($rootItem, NULL);
+    				} elseif (is_null($level)){
+	    				$res += self::options($rootItem, NULL);
+    				}
     			}
     		} else {
     			$root = self::find($root);
