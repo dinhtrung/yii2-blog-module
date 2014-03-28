@@ -35,8 +35,3 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php foreach ($model->getComments()->all() as $item) echo $this->render('/comment/_itemComment', ['model' => $item])?>
 	<?= $this->render('/comment/_formComment', ['model' => $comment, 'blog_id' => $model->id]); ?>
 </section>
-
-<section class="threads">
-	<?php foreach ($model->getThreads()->all() as $item) echo $this->render('/thread/_itemThread', ['model' => $item])?>
-	<?= $this->render('/thread/_formThread', ['model' => $thread, 'blog_id' => $model->id]); ?>
-</section>

@@ -57,21 +57,9 @@ class DefaultController extends Controller
     		$comment->save();
     		return $this->redirect('');
     	}
-    	$thread  = new Thread();
-    	if ($thread->load(Yii::$app->request->post())) {
-    		$thread->status = Thread::STATUS_PENDING;
-    		$thread->blog_id = $id;
-    		if ($root = Thread::find($thread->parent)){
-	    		$thread->saveNode();
-    		} else {
-    			$thread->appendTo($root);
-    		}
-    		return $this->redirect('');
-    	}
         return $this->render('viewBlog', [
             'model' => $this->findModel($id),
         	'comment' => $comment,
-        	'thread' => $thread,
         ]);
     }
 
