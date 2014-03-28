@@ -8,6 +8,8 @@ use vendor\dinhtrung\blog\models\BlogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
+use vendor\dinhtrung\blog\models\Comment;
+use vendor\dinhtrung\blog\models\Thread;
 
 /**
  * DefaultController implements the CRUD actions for Blog model.
@@ -48,8 +50,28 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
+    	$comment  = new Comment();
+    	if ($comment->load(Yii::$app->request->post())) {
+    		$comment->blog_id = $id;
+    		$comment->status = Comment::STATUS_PENDING;
+    		$comment->save();
+    		return $this->redirect('');
+    	}
+    	$thread  = new Thread();
+    	if ($thread->load(Yii::$app->request->post())) {
+    		$thread->status = Thread::STATUS_PENDING;
+    		$thread->blog_id = $id;
+    		if ($root = Thread::find($thread->parent)){
+	    		$thread->saveNode();
+    		} else {
+    			$thread->appendTo($root);
+    		}
+    		return $this->redirect('');
+    	}
         return $this->render('viewBlog', [
             'model' => $this->findModel($id),
+        	'comment' => $comment,
+        	'thread' => $thread,
         ]);
     }
 

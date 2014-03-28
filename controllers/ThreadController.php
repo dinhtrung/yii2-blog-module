@@ -62,7 +62,6 @@ class ThreadController extends Controller
     {
         $model = new Thread;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
         	if ($model->load(Yii::$app->request->post()) && $model->validate()) {
         		if ($model->parent == 0){
         			$model->saveNode();
@@ -71,8 +70,6 @@ class ThreadController extends Controller
         			$model->appendTo($root);
         		}
         		return $this->redirect(['view', 'id' => $model->id]);
-        	}
-            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('createThread', [
                 'model' => $model,
@@ -89,18 +86,17 @@ class ThreadController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $parent = $model->parent();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-        	if ($model->parent == 0){
-        		$model->moveAsRoot();
-        	} elseif ($model->parent != $parent){
-        		$root = Thread::find($model->parent);
-        		$model->moveAsLast($root);
-        	}
+   			$parent = Thread::find($model->parent);
+   			if ($parent)
+   				$model->moveAsLast($parent);
+   			else
+   				$model->moveAsRoot();
         	$model->saveNode();
         	return $this->redirect(['view', 'id' => $model->id]);
         } else {
+	        $model->parent = ($parent = $model->parent()->one())?$parent->id:NULL;
             return $this->render('updateThread', [
                 'model' => $model,
             ]);
@@ -115,7 +111,7 @@ class ThreadController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id)->deleteNode();
 
         return $this->redirect(['index']);
     }

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ListView;
+use yii\grid\GridView;
 
 /**
  * @var yii\web\View $this
@@ -24,10 +24,17 @@ $this->params['breadcrumbs'][] = $this->title;
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= ListView::widget([
+    <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
-        'itemView' => '_itemCategory',
-    ]) ?>
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            ['attribute' => 'title', 'value' => function ($data) { return str_repeat('- ', $data->level) . $data->title; }],
+            'description:ntext',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 
 </div>

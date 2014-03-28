@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
+use app\models\Category;
 
 /**
  * @var yii\web\View $this
@@ -14,14 +15,6 @@ use kartik\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'root')->textInput(['maxlength' => 10]) ?>
-
-    <?= $form->field($model, 'lft')->textInput(['maxlength' => 10]) ?>
-
-    <?= $form->field($model, 'rgt')->textInput(['maxlength' => 10]) ?>
-
-    <?= $form->field($model, 'level')->textInput() ?>
-
     <?= $form->field($model, 'title', [
 				    			'options' => ['maxlength' => 255],
 				    			'addon' => ['prepend' => ['content' => '<i class="glyphicon glyphicon-star"></i>']]
@@ -29,7 +22,8 @@ use kartik\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'parent') ?>
+    <?= $form->field($model, 'parent')->dropDownList(['' => '--- Select Parent ---'] + Category::options()) ?>
+
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('blog', 'Create') : Yii::t('blog', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

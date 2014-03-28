@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
@@ -16,6 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <p><?= $model->body; ?>
+
     <p>
         <?= Html::a(Yii::t('blog', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('blog', 'Delete'), ['delete', 'id' => $model->id], [
@@ -27,22 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            'body:ntext',
-            'created_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
-            'blog_id',
-            'root',
-            'lft',
-            'rgt',
-            'level',
-        ],
-    ]) ?>
-
 </div>
+
+<h3>Ancestors</h3>
+<?php \yii\helpers\VarDumper::dump($model->ancestors()->all(), 4, TRUE)?>
+
+<h3>Descendants</h3>
+<?php \yii\helpers\VarDumper::dump($model->descendants()->all(), 4, TRUE)?>

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use vendor\dinhtrung\blog\models\Thread;
 
 /**
  * @var yii\web\View $this
@@ -30,8 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'title',
+            ['attribute' => 'title', 'value' => function($data){ return str_repeat('--', $data->level - 1) . ' ' . $data->title; }],
             'body:ntext',
             'created_at',
             'created_by',
@@ -48,3 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
 </div>
+
+<h3>Roots</h3>
+<?php foreach (Thread::find()->roots()->all() as $item) echo $item->title;?>

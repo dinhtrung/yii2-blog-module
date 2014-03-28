@@ -94,6 +94,20 @@ class Blog extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tag::className(), ['id' => 'tag_id'])->viaTable('{{%blog_tag}}', ['blog_id' => 'id']);
     }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComments()
+    {
+        return $this->hasMany(Comment::className(), ['blog_id' => 'id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getThreads()
+    {
+        return $this->hasMany(Thread::className(), ['blog_id' => 'id']);
+    }
 
     /**
      * Add extra behaviors for model

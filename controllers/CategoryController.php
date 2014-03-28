@@ -40,6 +40,20 @@ class CategoryController extends Controller
             'searchModel' => $searchModel,
         ]);
     }
+    /**
+     * Lists all Category models.
+     * @return mixed
+     */
+    public function actionAdmin()
+    {
+        $searchModel = new CategorySearch;
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+        return $this->render('adminCategory', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
+    }
 
     /**
      * Displays a single Category model.
@@ -86,18 +100,17 @@ class CategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $parent = $model->parent();
+        $parent = $model->parent()->one()->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-        	if ($model->parent == 0){
-        		$model->moveAsRoot();
-        	} elseif ($model->parent != $parent){
+        	if ($model->parent != $parent){
         		$root = Category::find($model->parent);
-        		$model->moveAsLast($root);
+        		if ($root) $model->moveAsLast($root);
         	}
         	$model->saveNode();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+        	$model->parent = $parent;
             return $this->render('updateCategory', [
                 'model' => $model,
             ]);
@@ -168,7 +181,7 @@ class CategoryController extends Controller
     {
         $this->findModel($id)->deleteNode();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['admin']);
     }
 
     /**

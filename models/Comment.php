@@ -2,6 +2,7 @@
 
 namespace vendor\dinhtrung\blog\models;
 
+use yii\db\ActiveQuery;
 /**
  * This is the model class for table "tbl_comment".
  *
@@ -77,6 +78,15 @@ class Comment extends \yii\db\ActiveRecord
     	];
     }
 
+    /**
+     * Override createQuery to add default scope
+     * @param unknown $config
+     */
+    public static function createQuery($config = array())
+    {
+    	$config['modelClass'] = get_called_class();
+    	return (new ActiveQuery($config))->orderBy(['created_at' => SORT_DESC]);
+    }
     /**
      * Return a list of status option
      */

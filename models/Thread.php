@@ -2,6 +2,9 @@
 
 namespace vendor\dinhtrung\blog\models;
 
+use yii\db\ActiveQuery;
+use creocoder\behaviors\NestedSetQuery;
+use creocoder\behaviors\NestedSet;
 /**
  * This is the model class for table "tbl_thread".
  *
@@ -21,6 +24,8 @@ namespace vendor\dinhtrung\blog\models;
 class Thread extends \yii\db\ActiveRecord
 {
 	public $parent;
+	const STATUS_PENDING = 0;
+	const STATUS_APPROVED = 1;
     /**
      * @inheritdoc
      */
@@ -35,12 +40,12 @@ class Thread extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'body'], 'required'],
+            [['title'], 'required'],
             [['body'], 'string'],
             [['blog_id'], 'integer'],
             [['title'], 'string', 'max' => 255],
             // Additional attributes
-            [['parent'], 'safe']
+            [['parent'], 'integer']
         ];
     }
 
@@ -65,14 +70,30 @@ class Thread extends \yii\db\ActiveRecord
         ];
     }
 
+    public function afterValidate(){
+    	if ($this->isNewRecord) {
+    		$this->created_at = time();
+    		$this->created_by = \Yii::$app->getUser()->getId();
+    	}
+    	else {
+    		$this->updated_at = time();
+    		$this->updated_by = \Yii::$app->getUser()->getId();
+    	}
+
+    	return parent::afterValidate();
+    }
+
     /**
      * Add extra behaviors for model
      */
     public function behaviors(){
     	return [
-	    	['class' => 'yii\behaviors\TimestampBehavior'],
-	    	['class' => 'yii\behaviors\BlameableBehavior'],
-	    	[ 'class' => NestedSet::className (), 'hasManyRoots' => TRUE ],
+	    	'nestedSet' => [
+	    		'class' => NestedSet::className (),
+	    		'hasManyRoots' => TRUE
+			],
+// 	    	['class' => 'yii\behaviors\TimestampBehavior'],
+// 	    	['class' => 'yii\behaviors\BlameableBehavior'],
     	];
     }
 
@@ -83,7 +104,7 @@ class Thread extends \yii\db\ActiveRecord
     public static function createQuery($config = array())
     {
     	$config['modelClass'] = get_called_class();
-    	return (new ThreadQuery($config))->orderBy('root ASC, lft ASC');
+    	return (new ThreadQuery($config))->orderBy(['root' => SORT_ASC, 'lft' => SORT_ASC]);
     }
     /**
      * Return an array of available items, suitable for dropDownList()

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use kartik\markdown\Markdown;
 
 /**
  * @var yii\web\View $this
@@ -16,6 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <?= Markdown::convert($model->description); ?>
+
     <p>
         <?= Html::a(Yii::t('blog', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('blog', 'Delete'), ['delete', 'id' => $model->id], [
@@ -26,18 +29,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'root',
-            'lft',
-            'rgt',
-            'level',
-            'title',
-            'description:ntext',
-        ],
-    ]) ?>
 
 </div>
