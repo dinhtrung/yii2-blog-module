@@ -63,12 +63,11 @@ class BlogController extends Controller
     public function actionCreate()
     {
         $model = new Blog;
-        if (is_array($model->tags)) $model->tags = implode(', ', $model->tags);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
         	$tags = array_unique(preg_split( '/\s*,\s*/u',
         			preg_replace( '/\s+/u', ' ',
-        					is_array($this->tags) ? implode(',', $this->tags) : $this->tags
+        					is_array($model->tagged) ? implode(',', $model->tagged) : $model->tagged
 					), -1, PREG_SPLIT_NO_EMPTY ));
         	$rows = [];
         	foreach ($tags as $title){
@@ -76,7 +75,7 @@ class BlogController extends Controller
         		if ($tag === NULL) $tag = new Tag;
         		$tag->frequency++;
         		if (! $tag->save()) {
-        			Yii::error("Cannot save tag " . $tag->title);
+        			Yii::error("Cannot save tag " . $tag->title . json_encode($tag->getErrors()));
         			continue;
         		}
         		$rows[] = [$model->id, $tag->id];
@@ -85,7 +84,6 @@ class BlogController extends Controller
 
         	return $this->redirect(['view', 'id' => $model->id]);
         } else {
-        	$model->tags = implode(',', $model->tags);
             return $this->render('createBlog', [
                 'model' => $model,
             ]);
@@ -102,15 +100,15 @@ class BlogController extends Controller
     {
         $model = $this->findModel($id);
         $items = [];
-        foreach ($model->tags as $item) {
+        foreach ($model->getTags()->all() as $item) {
         	$items[] = $item->title;
         }
-        $model->tagNames = implode(', ', $items);
+        $model->tagged = implode(', ', $items);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
         	$tags = array_unique(preg_split( '/\s*,\s*/u',
         			preg_replace( '/\s+/u', ' ',
-        					is_array($model->tagNames) ? implode(',', $model->tagNames) : $model->tagNames
+        					is_array($model->tagged) ? implode(',', $model->tagged) : $model->tagged
         			), -1, PREG_SPLIT_NO_EMPTY ));
         	$removed = array_diff($items, $tags);
         	foreach (Tag::find()->where(['in', 'title', $removed])->all() as $removedItem){
@@ -134,15 +132,10 @@ class BlogController extends Controller
         		}
         		$rows[] = [$model->id, $tag->id];
         	}
-        	// @TODO: Must know for sure if we need to remove something...
         	if (! empty($rows)) $model->getDb()->createCommand()->batchInsert('{{%blog_tag}}', ['blog_id', 'tag_id'], $rows)->execute();
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-//         	$model->populateRelation('tags', $model->getTags()->all());
-//         	if ($model->isRelationPopulated('tags')){
-
-//         	}
             return $this->render('updateBlog', [
                 'model' => $model,
             ]);
@@ -157,7 +150,14 @@ class BlogController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+        foreach (BlogTag::find()->where(['blog_id' => $model->id])->with('tag')->all() as $removedItem){
+        	$removedItem->tag->frequency --;
+        	$removedItem->tag->save();
+        	$removedItem->delete();
+        }
+        $model->delete();
 
         return $this->redirect(['index']);
     }

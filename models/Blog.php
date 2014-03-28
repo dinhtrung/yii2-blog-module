@@ -3,6 +3,7 @@
 namespace vendor\dinhtrung\blog\models;
 
 use yii\helpers\ArrayHelper;
+use app\models\User;
 /**
  * This is the model class for table "tbl_blog".
  *
@@ -25,7 +26,8 @@ class Blog extends \yii\db\ActiveRecord
 	const STATUS_ACTIVE = 1;
 	const STATUS_ARCHIVED = 2;
 
-	public $tagNames = '';
+	public $tagged;
+
     /**
      * @inheritdoc
      */
@@ -45,7 +47,7 @@ class Blog extends \yii\db\ActiveRecord
             [['status', 'category_id'], 'integer'],
             [['title', 'description'], 'string', 'max' => 255],
             // Extra properties
-            [['tagNames'], 'string'],
+            [['tagged'], 'string'],
         ];
     }
 

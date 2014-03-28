@@ -15,13 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <article class="blog-view">
 	<header>
 	    <h1><?= Html::encode($this->title) ?></h1>
-	    <small>
 	    	<time datetime="<?= \Yii::$app->formatter->asDatetime($model->created_at, 'Y-m-d H:i:s')?>"
 	    			pubdate="<?= \Yii::$app->formatter->asDatetime($model->updated_at, 'Y-m-d H:i:s')?>">
 	    			<?= \Yii::$app->formatter->asDatetime($model->updated_at)?>
-	    	</time> by
-	    	@AUTHOR.
-	    </small>
+	    	</time>
+	    	@AUTHOR
 	    <p class="lead"><?= $model->description; ?></p>
 	</header>
 
@@ -32,13 +30,5 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <footer>
-        <?= Html::a(Yii::t('blog', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('blog', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('blog', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
     </footer>
 </div>

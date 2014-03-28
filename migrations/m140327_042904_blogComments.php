@@ -13,6 +13,7 @@ class m140327_042904_blogComments extends \yii\db\Migration
     	$this->createTable('{{%comment}}', [
     			'id' => Schema::TYPE_PK,
     			'title' => Schema::TYPE_STRING,
+    			'status' => Schema::TYPE_BOOLEAN,
     			'body' => Schema::TYPE_TEXT,
     			'blog_id' => Schema::TYPE_INTEGER,
     			'created_by' => Schema::TYPE_INTEGER,
@@ -24,6 +25,7 @@ class m140327_042904_blogComments extends \yii\db\Migration
     	$this->createTable('{{%thread}}', [
     			'id' => Schema::TYPE_PK,
     			'title' => Schema::TYPE_STRING,
+    			'status' => Schema::TYPE_BOOLEAN,
     			'body' => Schema::TYPE_TEXT,
     			'blog_id' => Schema::TYPE_INTEGER,
     			'created_by' => Schema::TYPE_INTEGER,

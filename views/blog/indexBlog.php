@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use vendor\dinhtrung\blog\models\Blog;
 
 /**
  * @var yii\web\View $this
@@ -30,11 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'title',
+            ['attribute' => 'title', 'value' => function($data){ return \yii\helpers\Html::a($data->title, ['view', 'id' => $data->id]); }, 'format' => 'html'],
             'description',
-            'body:ntext',
-            'status',
+//             'body:ntext',
+            ['attribute' => 'status', 'value' => function($data) { return Blog::statusOptions($data->status); }],
             // 'category_id',
             // 'user_id',
             // 'created_at',
