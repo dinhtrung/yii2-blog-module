@@ -14,7 +14,7 @@
 	"minimum-stability": "dev",
 	"require": {
 		"yiisoft/yii2": "*",
-		"kartik-v/yii2-widgets": "dev-master"
+		"kartik-v/yii2-widgets": "dev-master",
 		"kartik-v/yii2-markdown": "dev-master"
 	},
 	"autoload": {
