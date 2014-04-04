@@ -1,10 +1,10 @@
 <?php
 
-namespace vendor\dinhtrung\blog\controllers;
+namespace dinhtrung\blog\controllers;
 
 use Yii;
-use vendor\dinhtrung\blog\models\Comment;
-use vendor\dinhtrung\blog\models\CommentSearch;
+use dinhtrung\blog\models\Comment;
+use dinhtrung\blog\models\CommentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;

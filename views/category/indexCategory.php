@@ -6,7 +6,7 @@ use yii\widgets\ListView;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var vendor\dinhtrung\blog\models\CategorySearch $searchModel
+ * @var dinhtrung\blog\models\CategorySearch $searchModel
  */
 
 $this->title = Yii::t('blog', 'Categories');

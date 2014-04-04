@@ -1,10 +1,10 @@
 <?php
 
-namespace vendor\dinhtrung\blog\controllers;
+namespace dinhtrung\blog\controllers;
 
 use Yii;
-use vendor\dinhtrung\blog\models\Thread;
-use vendor\dinhtrung\blog\models\ThreadSearch;
+use dinhtrung\blog\models\Thread;
+use dinhtrung\blog\models\ThreadSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;

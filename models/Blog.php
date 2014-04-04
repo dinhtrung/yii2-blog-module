@@ -1,6 +1,6 @@
 <?php
 
-namespace vendor\dinhtrung\blog\models;
+namespace dinhtrung\blog\models;
 
 use yii\helpers\ArrayHelper;
 use app\models\User;

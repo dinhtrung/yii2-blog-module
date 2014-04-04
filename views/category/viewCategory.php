@@ -6,7 +6,7 @@ use kartik\markdown\Markdown;
 
 /**
  * @var yii\web\View $this
- * @var vendor\dinhtrung\blog\models\Category $model
+ * @var dinhtrung\blog\models\Category $model
  */
 
 $this->title = $model->title;

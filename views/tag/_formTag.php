@@ -5,7 +5,7 @@ use kartik\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var vendor\dinhtrung\blog\models\Tag $model
+ * @var dinhtrung\blog\models\Tag $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

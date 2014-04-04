@@ -3,12 +3,12 @@
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\Select2;
-use vendor\dinhtrung\blog\models\Blog;
-use vendor\dinhtrung\blog\models\Comment;
+use dinhtrung\blog\models\Blog;
+use dinhtrung\blog\models\Comment;
 
 /**
  * @var yii\web\View $this
- * @var vendor\dinhtrung\blog\models\Comment $model
+ * @var dinhtrung\blog\models\Comment $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

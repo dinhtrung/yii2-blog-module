@@ -2,13 +2,13 @@
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
-use vendor\dinhtrung\blog\models\Thread;
+use dinhtrung\blog\models\Thread;
 use kartik\widgets\Select2;
-use vendor\dinhtrung\blog\models\Blog;
+use dinhtrung\blog\models\Blog;
 
 /**
  * @var yii\web\View $this
- * @var vendor\dinhtrung\blog\models\Thread $model
+ * @var dinhtrung\blog\models\Thread $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

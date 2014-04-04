@@ -2,12 +2,12 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use vendor\dinhtrung\blog\models\Blog;
+use dinhtrung\blog\models\Blog;
 
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var vendor\dinhtrung\blog\models\BlogSearch $searchModel
+ * @var dinhtrung\blog\models\BlogSearch $searchModel
  */
 
 $this->title = Yii::t('blog', 'Blogs');

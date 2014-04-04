@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var vendor\dinhtrung\blog\models\Blog $model
+ * @var dinhtrung\blog\models\Blog $model
  */
 
 $this->title = Yii::t('blog', 'Create {modelClass}', [

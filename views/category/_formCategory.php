@@ -6,7 +6,7 @@ use app\models\Category;
 
 /**
  * @var yii\web\View $this
- * @var vendor\dinhtrung\blog\models\Category $model
+ * @var dinhtrung\blog\models\Category $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

@@ -1,14 +1,14 @@
 <?php
 
-namespace vendor\dinhtrung\blog\models;
+namespace dinhtrung\blog\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use vendor\dinhtrung\blog\models\Blog;
+use dinhtrung\blog\models\Blog;
 
 /**
- * BlogSearch represents the model behind the search form about `vendor\dinhtrung\blog\models\Blog`.
+ * BlogSearch represents the model behind the search form about `dinhtrung\blog\models\Blog`.
  */
 class BlogSearch extends Model
 {

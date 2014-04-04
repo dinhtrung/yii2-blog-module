@@ -1,14 +1,14 @@
 <?php
 
-namespace vendor\dinhtrung\blog\models;
+namespace dinhtrung\blog\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use vendor\dinhtrung\blog\models\Thread;
+use dinhtrung\blog\models\Thread;
 
 /**
- * ThreadSearch represents the model behind the search form about `vendor\dinhtrung\blog\models\Thread`.
+ * ThreadSearch represents the model behind the search form about `dinhtrung\blog\models\Thread`.
  */
 class ThreadSearch extends Model
 {

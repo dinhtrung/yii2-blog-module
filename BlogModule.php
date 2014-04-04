@@ -1,10 +1,10 @@
 <?php
 
-namespace vendor\dinhtrung\blog;
+namespace dinhtrung\blog;
 
 class BlogModule extends \yii\base\Module
 {
-    public $controllerNamespace = 'vendor\dinhtrung\blog\controllers';
+    public $controllerNamespace = 'dinhtrung\blog\controllers';
 
     public function init()
     {

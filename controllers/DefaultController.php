@@ -1,15 +1,15 @@
 <?php
 
-namespace vendor\dinhtrung\blog\controllers;
+namespace dinhtrung\blog\controllers;
 
 use Yii;
-use vendor\dinhtrung\blog\models\Blog;
-use vendor\dinhtrung\blog\models\BlogSearch;
+use dinhtrung\blog\models\Blog;
+use dinhtrung\blog\models\BlogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
-use vendor\dinhtrung\blog\models\Comment;
-use vendor\dinhtrung\blog\models\Thread;
+use dinhtrung\blog\models\Comment;
+use dinhtrung\blog\models\Thread;
 
 /**
  * DefaultController implements the CRUD actions for Blog model.

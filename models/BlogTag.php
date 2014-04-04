@@ -1,6 +1,6 @@
 <?php
 
-namespace vendor\dinhtrung\blog\models;
+namespace dinhtrung\blog\models;
 
 /**
  * This is the model class for table "tbl_blog_tag".

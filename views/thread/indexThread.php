@@ -2,12 +2,12 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use vendor\dinhtrung\blog\models\Thread;
+use dinhtrung\blog\models\Thread;
 
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var vendor\dinhtrung\blog\models\ThreadSearch $searchModel
+ * @var dinhtrung\blog\models\ThreadSearch $searchModel
  */
 
 $this->title = Yii::t('blog', 'Threads');

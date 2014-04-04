@@ -1,6 +1,6 @@
 <?php
 
-namespace vendor\dinhtrung\blog\models;
+namespace dinhtrung\blog\models;
 
 use yii\db\ActiveQuery;
 use creocoder\behaviors\NestedSetQuery;
